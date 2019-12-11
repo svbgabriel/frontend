@@ -77,7 +77,6 @@ export default class Box extends Component {
                   <strong>{file.title}</strong>
                 </a>
                 <span>
-                  há{" "}
                   {formatDistance(parseISO(file.createdAt), new Date(), {
                     addSuffix: true,
                     locale: pt
