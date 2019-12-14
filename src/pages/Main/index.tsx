@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent, FormEvent } from 'react';
 import api from '../../services/api';
 
 import logo from '../../assets/logo.svg';
@@ -7,7 +7,7 @@ import './styles.css';
 export default function Main({ history }) {
   const [newBox, setNewBox] = useState('');
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const response = await api.post('boxes', {
@@ -17,7 +17,8 @@ export default function Main({ history }) {
     history.push(`/box/${response.data._id}`);
   };
 
-  const handleInputChange = e => setNewBox(e.target.value);
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) =>
+    setNewBox(e.target.value);
 
   return (
     <div id="main-container">
