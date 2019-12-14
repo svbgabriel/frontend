@@ -31,6 +31,7 @@
   "devDependencies": {
     "@types/react": "^16.9.16",
     "@types/react-dom": "^16.9.4",
+    "@types/socket.io-client": "^1.4.32",
     "prettier": "^1.19.1",
     "typescript": "^3.7.3"
   }

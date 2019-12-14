@@ -1,16 +1,20 @@
-import React, { Component } from "react";
-import { formatDistance, parseISO } from "date-fns";
-import pt from "date-fns/locale/pt";
-import Dropzone from "react-dropzone";
-import socket from "socket.io-client";
-import api from "../../services/api";
-import logo from "../../assets/logo.svg";
-import { MdInsertDriveFile } from "react-icons/md";
-import "./styles.css";
+import React, { Component } from 'react';
+import { formatDistance, parseISO } from 'date-fns';
+import pt from 'date-fns/locale/pt';
+import Dropzone from 'react-dropzone';
+import socket from 'socket.io-client';
+import api from '../../services/api';
+import logo from '../../assets/logo.svg';
+import { MdInsertDriveFile } from 'react-icons/md';
+import { IBoxProps, IBoxState, IFile } from './type';
+import './styles.css';
 
-export default class Box extends Component {
-  state = {
-    box: {}
+export default class Box extends Component<IBoxProps, IBoxState> {
+  state: IBoxState = {
+    box: {
+      title: '',
+      files: [],
+    },
   };
 
   async componentDidMount() {
@@ -24,13 +28,13 @@ export default class Box extends Component {
 
   subscribeToNewFiles = () => {
     const box = this.props.match.params.id;
-    const io = socket("https://omnistack-backend-svb.herokuapp.com");
+    const io = socket('https://omnistack-backend-svb.herokuapp.com');
 
-    io.emit("connectRoom", box);
+    io.emit('connectRoom', box);
 
-    io.on("file", data => {
+    io.on('file', (data: IFile) => {
       this.setState({
-        box: { ...this.state.box, files: [data, ...this.state.box.files] }
+        box: { ...this.state.box, files: [data, ...this.state.box.files] },
       });
     });
   };
@@ -40,7 +44,7 @@ export default class Box extends Component {
       const data = new FormData();
       const box = this.props.match.params.id;
 
-      data.append("file", file);
+      data.append('file', file);
 
       api.post(`boxes/${box}/files`, data);
     });
@@ -65,7 +69,7 @@ export default class Box extends Component {
 
         <ul>
           {this.state.box.files &&
-            this.state.box.files.map(file => (
+            this.state.box.files.map((file: IFile) => (
               <li key={file._id}>
                 <a
                   className="fileInfo"
@@ -79,7 +83,7 @@ export default class Box extends Component {
                 <span>
                   {formatDistance(parseISO(file.createdAt), new Date(), {
                     addSuffix: true,
-                    locale: pt
+                    locale: pt,
                   })}
                 </span>
               </li>
