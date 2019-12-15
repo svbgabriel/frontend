@@ -39,7 +39,7 @@ export default class Box extends Component<IBoxProps, IBoxState> {
     });
   };
 
-  handleUpload = files => {
+  handleUpload = (files: File[]) => {
     files.forEach(file => {
       const data = new FormData();
       const box = this.props.match.params.id;
